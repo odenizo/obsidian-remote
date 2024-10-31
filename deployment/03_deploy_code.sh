@@ -32,4 +32,10 @@ if ! docker run -d \
   exit 1
 fi
 
+# Step 4: Install the Smart Connect Electron app from the Debian package
+if ! dpkg -i /tmp/smart-connect.deb; then
+  echo "Error: Smart Connect installation failed."
+  exit 1
+fi
+
 echo "Deployment complete. Access the application at http://localhost:${CUSTOM_PORT:-8080}/ and Smart Connect at http://localhost:${SMART_CONNECT_PORT:-3000}/"

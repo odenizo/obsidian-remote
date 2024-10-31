@@ -28,6 +28,13 @@ RUN echo "**** install electron ****" && \
     npm install -g electron@13.1.7 && \
     apt-get autoclean && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
 
+# Install Smart Connect Electron app from Debian package
+COPY smart-connect/smart-connect.deb /tmp/smart-connect.deb
+RUN dpkg -i /tmp/smart-connect.deb && rm /tmp/smart-connect.deb
+
+# Create necessary folder structure for Smart Connect plugin
+RUN mkdir -p /smart-connect
+
 # Environment variables
 ENV CUSTOM_PORT="8080" \
     CUSTOM_HTTPS_PORT="8443" \
