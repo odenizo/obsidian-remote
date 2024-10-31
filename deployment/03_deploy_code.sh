@@ -18,4 +18,18 @@ if ! docker run -d \
   exit 1
 fi
 
-echo "Deployment complete. Access the application at http://localhost:${CUSTOM_PORT:-8080}/"
+# Step 3: Build and run the Smart Connect Electron app
+if ! docker build -t smart-connect:latest ./smart-connect; then
+  echo "Error: Docker build for Smart Connect failed."
+  exit 1
+fi
+
+if ! docker run -d \
+  -v ${SMART_CONNECT_PATH:-/path/to/smart-connect}:/smart-connect \
+  -p ${SMART_CONNECT_PORT:-3000}:${SMART_CONNECT_PORT:-3000} \
+  smart-connect:latest; then
+  echo "Error: Docker run for Smart Connect failed."
+  exit 1
+fi
+
+echo "Deployment complete. Access the application at http://localhost:${CUSTOM_PORT:-8080}/ and Smart Connect at http://localhost:${SMART_CONNECT_PORT:-3000}/"

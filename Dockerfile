@@ -21,6 +21,13 @@ RUN echo "**** download obsidian ****" && \
     dpkg -i obsidian.deb && \
     rm obsidian.deb
 
+# Download and install Electron for Smart Connect
+RUN echo "**** install electron ****" && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends nodejs npm && \
+    npm install -g electron@13.1.7 && \
+    apt-get autoclean && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
+
 # Environment variables
 ENV CUSTOM_PORT="8080" \
     CUSTOM_HTTPS_PORT="8443" \
@@ -34,6 +41,7 @@ ENV CUSTOM_PORT="8080" \
 
 # Add local files
 COPY root/ /
+COPY smart-connect/ /smart-connect/
 
 # Expose ports and volumes
 EXPOSE ${CUSTOM_PORT} ${CUSTOM_HTTPS_PORT}
