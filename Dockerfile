@@ -28,14 +28,16 @@ ENV CUSTOM_PORT="8080" \
     PASSWORD="" \
     SUBFOLDER="" \
     TITLE="Obsidian v${OBSIDIAN_VERSION}" \
-    FM_HOME="/vaults"
+    FM_HOME="/vaults" \
+    VAULTS_PATH="/vaults" \
+    CONFIG_PATH="/config"
 
 # Add local files
 COPY root/ /
 
 # Expose ports and volumes
-EXPOSE 8080 8443
-VOLUME ["/config","/vaults"]
+EXPOSE ${CUSTOM_PORT} ${CUSTOM_HTTPS_PORT}
+VOLUME ["${VAULTS_PATH}","${CONFIG_PATH}"]
 
 # Define a healthcheck
 HEALTHCHECK CMD /bin/sh -c 'if [ -z "$CUSTOM_USER" ] || [ -z "$PASSWORD" ]; then curl --fail http://localhost:8080/ || exit 1; else curl --fail --user "$CUSTOM_USER:$PASSWORD" http://localhost:8080/ || exit 1; fi'
