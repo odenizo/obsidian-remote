@@ -22,6 +22,7 @@ Use `http://localhost:8080/` to access it locally, do not expose this to the web
 - [Updating Obsidian](#updating-obsidian)
 - [Building locally](#building-locally)
 - [Copy/Paste From External Source](#copypaste-from-external-source)
+- [Setting up on a GCP VM](#setting-up-on-a-gcp-vm)
 
 ## Using the Container
 
@@ -279,5 +280,31 @@ Click on the circle to the left side of your browser window. In there you will f
 
 ![image](https://user-images.githubusercontent.com/1399443/202805847-a87e2c7c-a5c6-4dea-bbae-4b25b4b5866a.png)
 
+## Setting up on a GCP VM
 
+### Creating the "vsult" folder
+
+1. SSH into your GCP VM.
+2. Create the "vsult" folder in your home directory:
+   ```bash
+   mkdir -p ~/vsult
+   ```
+
+### Running the Docker container on the GCP VM
+
+1. Ensure Docker is installed on your GCP VM. If not, follow the [official Docker installation guide](https://docs.docker.com/engine/install/).
+2. Build the Docker image:
+   ```bash
+   docker build -t obsidian-remote:latest .
+   ```
+3. Run the Docker container:
+   ```bash
+   docker run -d \
+     -v ~/vsult:/vaults \
+     -v ~/config:/config \
+     -p 8080:8080 \
+     -p 8443:8443 \
+     obsidian-remote:latest
+   ```
+4. Access the application at `http://<your-vm-external-ip>:8080/`.
 
