@@ -22,6 +22,7 @@ Use `http://localhost:8080/` to access it locally, do not expose this to the web
 - [Updating Obsidian](#updating-obsidian)
 - [Building locally](#building-locally)
 - [Copy/Paste From External Source](#copypaste-from-external-source)
+- [Deploying on GitHub Codespaces](#deploying-on-github-codespaces) <!-- P8aec -->
 
 ## Using the Container
 
@@ -279,5 +280,14 @@ Click on the circle to the left side of your browser window. In there you will f
 
 ![image](https://user-images.githubusercontent.com/1399443/202805847-a87e2c7c-a5c6-4dea-bbae-4b25b4b5866a.png)
 
+## Deploying on GitHub Codespaces <!-- P8aec -->
 
+To deploy this project on GitHub Codespaces, follow these steps: <!-- P83cc -->
 
+1. Open the repository on GitHub.
+2. Click on the "Code" button and select "Open with Codespaces".
+3. If you don't have a Codespace already, create a new one.
+4. Once the Codespace is created, it will automatically use the configuration specified in the `devcontainer.json` file. <!-- P8523 -->
+5. The development environment will be set up, and you can start working on the project immediately.
+
+For more information on GitHub Codespaces, refer to the [official documentation](https://docs.github.com/en/codespaces/overview). <!-- P83cc -->

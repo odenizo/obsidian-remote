@@ -1,0 +1,32 @@
+name: Codespaces Setup
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: docker build -t obsidian-remote:latest .
+
+      - name: Run Docker container
+        run: docker run -d -v /path/to/vaults:/vaults -v /path/to/config:/config -p 8080:8080 obsidian-remote:latest
+
+      - name: Install dependencies
+        run: bash deployment/02_requirements.sh
+
+      - name: Set up project
+        run: bash deployment/03_deploy_code.sh
