@@ -1,0 +1,7 @@
+{
+  "tasks": {
+    "test": "docker build --pull --rm -f \"Dockerfile\" -t obsidian-remote:latest \".\" && docker run --rm -it -v D:/ob/vaults:/vaults -v D:/ob/config:/config -p 8080:8080 obsidian-remote:latest",
+    "build": "docker build --pull --rm -f \"Dockerfile\" -t obsidian-remote:latest \".\"",
+    "launch": "docker run --rm -it -v D:/ob/vaults:/vaults -v D:/ob/config:/config -p 8080:8080 ghcr.io/sytone/obsidian-remote:latest"
+  }
+}

@@ -22,6 +22,8 @@ Use `http://localhost:8080/` to access it locally, do not expose this to the web
 - [Updating Obsidian](#updating-obsidian)
 - [Building locally](#building-locally)
 - [Copy/Paste From External Source](#copypaste-from-external-source)
+- [Building and Running the Docker Image](#building-and-running-the-docker-image)
+- [Using Docker Compose to Build and Run the Docker Image](#using-docker-compose-to-build-and-run-the-docker-image)
 
 ## Using the Container
 
@@ -272,12 +274,66 @@ docker run --rm -it `
   obsidian-remote:latest bash
 ```
 
-
 ## Copy/Paste From External Source
 
 Click on the circle to the left side of your browser window. In there you will find a textbox for updating the remote clipboard or copying from it.
 
 ![image](https://user-images.githubusercontent.com/1399443/202805847-a87e2c7c-a5c6-4dea-bbae-4b25b4b5866a.png)
 
+## Building and Running the Docker Image
 
+To build the Docker image, run the following command:
 
+```sh
+docker build -t obsidian-remote:latest -f Dockerfile .
+```
+
+To run the Docker container, use the following command:
+
+```sh
+docker run -d \
+  -v /path/to/vaults:/vaults \
+  -v /path/to/config:/config \
+  -p 8080:8080 \
+  -p 8443:8443 \
+  obsidian-remote:latest
+```
+
+## Using Docker Compose to Build and Run the Docker Image
+
+Create a `docker-compose.yml` file with the following content:
+
+```yaml
+version: '3.8'
+
+services:
+  obsidian:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: obsidian-remote:latest
+    container_name: obsidian-remote
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+      - 8443:8443
+    volumes:
+      - /path/to/vaults:/vaults
+      - /path/to/config:/config
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+      - DOCKER_MODS=linuxserver/mods:universal-git
+      - CUSTOM_PORT="8080"
+      - CUSTOM_HTTPS_PORT="8443"
+      - CUSTOM_USER=""
+      - PASSWORD=""
+      - SUBFOLDER=""
+```
+
+To build and run the Docker image using Docker Compose, run the following command:
+
+```sh
+docker-compose up -d
+```
