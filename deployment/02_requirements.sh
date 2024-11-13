@@ -12,6 +12,8 @@ REQUIREMENTS=(
   "fonts-noto-color-emoji"
   "git"
   "ssh-askpass"
+  "docker" # Additional requirement for Codespaces deployment
+  "docker-compose" # Additional requirement for Codespaces deployment
 )
 
 # Install requirements

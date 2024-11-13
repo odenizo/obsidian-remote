@@ -13,3 +13,16 @@ docker run -d \
   obsidian-remote:latest
 
 echo "Deployment complete. Access the application at http://localhost:8080/"
+
+# Add steps specific to Codespaces deployment
+if [ "$CODESPACES" = true ]; then
+  echo "Setting up Codespaces environment..."
+
+  # Step 3: Install additional dependencies for Codespaces
+  bash deployment/02_requirements.sh
+
+  # Step 4: Set up the project in Codespaces
+  bash deployment/01_define_variables.sh
+
+  echo "Codespaces setup complete."
+fi
