@@ -14,6 +14,7 @@ REQUIREMENTS=(
   "ssh-askpass"
   "docker" # Additional requirement for Kamatera VM deployment
   "docker-compose" # Additional requirement for Kamatera VM deployment
+  "nginx" # Additional requirement for web access
 )
 
 # Install requirements
@@ -25,3 +26,22 @@ for requirement in "${REQUIREMENTS[@]}"; do
     echo "$requirement is already installed."
   fi
 done
+
+# Configure nginx for web access
+sudo bash -c 'cat > /etc/nginx/sites-available/obsidian <<EOF
+server {
+    listen 80;
+    server_name localhost;
+
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+}
+EOF'
+
+sudo ln -s /etc/nginx/sites-available/obsidian /etc/nginx/sites-enabled/
+sudo systemctl restart nginx
