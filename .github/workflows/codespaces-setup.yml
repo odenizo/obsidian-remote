@@ -20,7 +20,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image
-        run: docker build -t obsidian-remote:latest .
+        run: docker build -t obsidian-remote:latest -f Dockerfile .
 
       - name: Run Docker container
         run: docker run -d -v /path/to/vaults:/vaults -v /path/to/config:/config -p 8080:8080 obsidian-remote:latest

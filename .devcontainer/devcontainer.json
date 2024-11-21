@@ -16,7 +16,7 @@
   "remoteUser": "vscode",
   "tasks": {
     "test": "bash deployment/02_requirements.sh && bash deployment/03_deploy_code.sh",
-    "build": "docker build -t obsidian-remote:latest .",
+    "build": "docker build -t obsidian-remote:latest -f ../Dockerfile .",
     "launch": "docker run -d -v D:/ob/vaults:/vaults -v D:/ob/config:/config -p 8080:8080 ghcr.io/sytone/obsidian-remote:latest"
   }
 }

@@ -3,7 +3,7 @@
 # Build and deploy the application
 
 # Step 1: Build the Docker image
-docker build -t obsidian-remote:latest .
+docker build -t obsidian-remote:latest -f Dockerfile .
 
 # Step 2: Run the Docker container
 docker run -d \
