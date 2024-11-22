@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Authenticate to Google Cloud using the gcloud CLI
+gcloud auth login
+gcloud config set project YOUR_PROJECT_ID
+
 # Define environment variables and their default values
 export CUSTOM_PORT=${CUSTOM_PORT:-8080}
 export CUSTOM_HTTPS_PORT=${CUSTOM_HTTPS_PORT:-8443}
