@@ -10,6 +10,12 @@ LABEL maintainer="github@sytone.com" \
 ARG OBSIDIAN_VERSION=1.7.4
 ARG ARCH=arm64
 
+# Verify the existence of the Docker image
+RUN docker pull ghcr.io/linuxserver/baseimage-kasmvnc:debianbullseye
+
+# Verify the platform specified is correct
+RUN docker inspect --format '{{.Os}}/{{.Architecture}}' ghcr.io/linuxserver/baseimage-kasmvnc:debianbullseye | grep 'linux/arm64'
+
 # Update and install extra packages
 RUN echo "**** install packages ****" && \
     apt-get update && \

@@ -9,6 +9,12 @@ LABEL maintainer="github@sytone.com" \
 # Set version label
 ARG OBSIDIAN_VERSION=1.7.4
 
+# Verify the existence of the Docker image
+RUN docker pull ghcr.io/linuxserver/baseimage-kasmvnc:debianbullseye
+
+# Verify the platform specified is correct
+RUN docker inspect --format '{{.Os}}/{{.Architecture}}' ghcr.io/linuxserver/baseimage-kasmvnc:debianbullseye | grep 'linux/amd64'
+
 # Update and install extra packages
 RUN echo "**** install packages ****" && \
     apt-get update && \
@@ -38,4 +44,4 @@ EXPOSE 8080 8443
 VOLUME ["/config","/vaults"]
 
 # Define a healthcheck
-HEALTHCHECK CMD /bin/sh -c 'if [ -z "$CUSTOM_USER" ] || [ -z "$PASSWORD" ]; then curl --fail http://localhost:8080/ || exit 1; else curl --fail --user "$CUSTOM_USER:$PASSWORD" http://localhost:8080/ || exit 1; fi'
+HEALTHCHECK CMD /bin.sh -c 'if [ -z "$CUSTOM_USER" ] || [ -z "$PASSWORD" ]; then curl --fail http://localhost:8080/ || exit 1; else curl --fail --user "$CUSTOM_USER:$PASSWORD" http://localhost:8080/ || exit 1; fi'
