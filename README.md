@@ -33,6 +33,13 @@ docker run --rm -it `
   -v D:/ob/vaults:/vaults `
   -v D:/ob/config:/config `
   -p 8080:8080 `
+  -e CUSTOM_PORT=8080 `
+  -e CUSTOM_HTTPS_PORT=8443 `
+  -e CUSTOM_USER="" `
+  -e PASSWORD="" `
+  -e SUBFOLDER="" `
+  -e TITLE="Obsidian" `
+  -e FM_HOME="/vaults" `
   ghcr.io/sytone/obsidian-remote:latest
 ```
 
@@ -43,6 +50,13 @@ docker run -d `
   -v D:/ob/vaults:/vaults `
   -v D:/ob/config:/config `
   -p 8080:8080 `
+  -e CUSTOM_PORT=8080 `
+  -e CUSTOM_HTTPS_PORT=8443 `
+  -e CUSTOM_USER="" `
+  -e PASSWORD="" `
+  -e SUBFOLDER="" `
+  -e TITLE="Obsidian" `
+  -e FM_HOME="/vaults" `
   ghcr.io/sytone/obsidian-remote:latest
 ```
 
@@ -53,6 +67,13 @@ docker run -d `
   -v D:/ob/vaults:/vaults `
   -v D:/ob/config:/config `
   -p 8080:8080 `
+  -e CUSTOM_PORT=8080 `
+  -e CUSTOM_HTTPS_PORT=8443 `
+  -e CUSTOM_USER="" `
+  -e PASSWORD="" `
+  -e SUBFOLDER="" `
+  -e TITLE="Obsidian" `
+  -e FM_HOME="/vaults" `
   sytone/obsidian-remote:latest
 ```
 
@@ -249,6 +270,11 @@ services:
       - PGID=1000
       - TZ=America/Los_Angeles
       - DOCKER_MODS=linuxserver/mods:universal-git
+      - CUSTOM_PORT="8080"
+      - CUSTOM_HTTPS_PORT="8443" 
+      - CUSTOM_USER=""
+      - PASSWORD=""
+      - SUBFOLDER=""
 networks:
   default:
     name: <your nginx proxy manager network>
@@ -289,5 +315,55 @@ Click on the circle to the left side of your browser window. In there you will f
 
 ![image](https://user-images.githubusercontent.com/1399443/202805847-a87e2c7c-a5c6-4dea-bbae-4b25b4b5866a.png)
 
+## Customizing Ports and Volumes using Environment Variables
 
+You can customize the ports and volumes used by the container by setting the appropriate environment variables. Here are some examples:
 
+### Docker CLI example
+
+```PowerShell
+docker run -d `
+  -v D:/ob/vaults:/vaults `
+  -v D:/ob/config:/config `
+  -p 8080:8080 `
+  -e CUSTOM_PORT=8080 `
+  -e CUSTOM_HTTPS_PORT=8443 `
+  -e CUSTOM_USER="" `
+  -e PASSWORD="" `
+  -e SUBFOLDER="" `
+  -e TITLE="Obsidian" `
+  -e FM_HOME="/vaults" `
+  ghcr.io/sytone/obsidian-remote:latest
+```
+
+### Docker Compose example
+
+```YAML
+services:
+  obsidian:
+    image: 'ghcr.io/sytone/obsidian-remote:latest'
+    container_name: obsidian-remote
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+      - 8443:8443
+    volumes:
+      - /home/obsidian/vaults:/vaults
+      - /home/obsidian/config:/config
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+      - DOCKER_MODS=linuxserver/mods:universal-git
+      - CUSTOM_PORT="8080"
+      - CUSTOM_HTTPS_PORT="8443" 
+      - CUSTOM_USER=""
+      - PASSWORD=""
+      - SUBFOLDER=""
+      - TITLE="Obsidian"
+      - FM_HOME="/vaults"
+networks:
+  default:
+    name: <your nginx proxy manager network>
+    external: true
+```

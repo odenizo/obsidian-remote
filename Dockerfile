@@ -21,6 +21,20 @@ RUN echo "**** download obsidian ****" && \
     dpkg -i obsidian.deb && \
     rm obsidian.deb
 
+# Download and install Electron for Smart Connect
+RUN echo "**** install electron ****" && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends nodejs npm && \
+    npm install -g electron@13.1.7 && \
+    apt-get autoclean && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
+
+# Install Smart Connect Electron app from Debian package
+COPY smart-connect/smart-connect.deb /tmp/smart-connect.deb
+RUN dpkg -i /tmp/smart-connect.deb && rm /tmp/smart-connect.deb
+
+# Create necessary folder structure for Smart Connect plugin
+RUN mkdir -p /smart-connect
+
 # Environment variables
 ENV CUSTOM_PORT="8080" \
     CUSTOM_HTTPS_PORT="8443" \
@@ -28,14 +42,17 @@ ENV CUSTOM_PORT="8080" \
     PASSWORD="" \
     SUBFOLDER="" \
     TITLE="Obsidian v${OBSIDIAN_VERSION}" \
-    FM_HOME="/vaults"
+    FM_HOME="/vaults" \
+    VAULTS_PATH="/vaults" \
+    CONFIG_PATH="/config"
 
 # Add local files
 COPY root/ /
+COPY smart-connect/ /smart-connect/
 
 # Expose ports and volumes
-EXPOSE 8080 8443
-VOLUME ["/config","/vaults"]
+EXPOSE ${CUSTOM_PORT} ${CUSTOM_HTTPS_PORT}
+VOLUME ["${VAULTS_PATH}","${CONFIG_PATH}"]
 
 # Define a healthcheck
 HEALTHCHECK CMD /bin/sh -c 'if [ -z "$CUSTOM_USER" ] || [ -z "$PASSWORD" ]; then curl --fail http://localhost:8080/ || exit 1; else curl --fail --user "$CUSTOM_USER:$PASSWORD" http://localhost:8080/ || exit 1; fi'

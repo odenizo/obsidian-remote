@@ -1,0 +1,14 @@
+{
+  "name": "smart-connect",
+  "version": "1.0.0",
+  "description": "Electron app for the mobile app Obsidian plugin called 'smart connect'",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^13.1.7"
+  }
+}
